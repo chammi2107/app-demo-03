@@ -1,33 +1,37 @@
-name: Deploy website
+name: Deploy Website
 on:
-  push:
-    branches:
-      - main
+  push: 
+    branches: main
 jobs:
-  test:
+  lint:
     runs-on: ubuntu-latest
     steps:
-      - name: Get code
-        uses: actions/checkout@v3
-      - name: Install dependencies
-        run: npm ci
-      - name: Lint code
-        run: npm run lint
-      - name: Test code
-        run: npm run test
-  build:
-    needs: test
+      - name: Get Code
+      - uses: actions/checkout@v4
+      - name: install node
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+      - name: Install dependency
+        run: npm CI
+      - name: Run Lint
+        run: npm lint
+  Build-Artifact:
     runs-on: ubuntu-latest
     steps:
-      - name: Get code
-        uses: actions/checkout@v3
-      - name: Install dependencies
-        run: npm ci
-      - name: Build website
+      - name: Get Code
+      - uses: actions/checkout@v4
+      - name: Build the application
         run: npm run build
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy
-        run: echo "Deploying..."
+      - name: Get Build artifacts
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist-files
+      - uses: show list
+        run: ls
+      
+        
+        
+          
+      
+    
